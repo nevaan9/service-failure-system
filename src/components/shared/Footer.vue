@@ -1,6 +1,6 @@
 <template>
   <v-footer fixed class="footer">
-    <span style="margin: auto">&copy; Nevaan Perera - 2018</span>
+    <span style="margin: auto">&copy; Nevaan Manakal Perera - 2018</span>
   </v-footer>
 </template>
 
