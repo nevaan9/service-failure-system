@@ -70,7 +70,7 @@ export default new Router({
         footer: Footer,
       },
     }, {
-      path: '/all-service-failures',
+      path: '/service-failures',
       name: 'ServiceFailures',
       components: {
         leftTab: LeftTabToolbar,
@@ -78,7 +78,7 @@ export default new Router({
         footer: Footer,
       },
     }, {
-      path: '/aServiceFailure/:SFid',
+      path: '/service-failure/:SFid',
       name: 'aServiceFailure',
       props: {
         leftTab: false,

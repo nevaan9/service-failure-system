@@ -34,6 +34,8 @@ jwtOptions.secretOrKey = 'thisisasecretkey';
 
 const app = express();
 const router = express.Router();
+const serveStatic = require('serve-static');
+const history = require('connect-history-api-fallback');
 // app.use(passport.initialize());
 
 app.use(morgan('combined'));
@@ -55,6 +57,10 @@ fs.readdirSync('./src/controllers').forEach(file => {
     route.controller(app);
   }
 });
+
+app.use(history());
+app.use(serveStatic(__dirname + "/dist"));
+
 
 router.get('/', function(req, res){
   res.json({msg: 'API Initialized!'});
