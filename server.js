@@ -4,9 +4,37 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
 const fs = require('fs');
+const User = require('./src/models/User');
+
+// Get the authentication stuff
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
+const passportJWT = require('passport-jwt');
+const ExtractJwt = passportJWT.ExtractJwt;
+const JwtStrategy = passportJWT.Strategy;
+const jwtOptions = {};
+jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
+jwtOptions.secretOrKey = 'thisisasecretkey';
+
+// passport.use(new JwtStrategy(jwtOptions, function(jwt_payload, done) {
+//   console.log(jwt_payload);
+//   User.findOne({_id: jwt_payload.id}, function(err, user) {
+//     if (err) {
+//       return done(err, false);
+//     }
+//     if (user) {
+//       console.log(user);
+//       return done(null, user);
+//     } else {
+//       return done(null, false);
+//       // or you could create a new account
+//     }
+//   });
+// }));
 
 const app = express();
 const router = express.Router();
+// app.use(passport.initialize());
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());

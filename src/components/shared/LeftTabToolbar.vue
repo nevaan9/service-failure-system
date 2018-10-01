@@ -1,14 +1,14 @@
 <template>
   <div>
     <v-navigation-drawer
-      clipped
-      fixed
+      absolute
+      temporary
       v-model="drawer"
       app>
       <v-list dense>
         <div v-for="aLeftNavItem in leftNavItems" :key="aLeftNavItem.name">
-          <v-list-tile>
-            <v-list-tile-action @click="goToRoute(aLeftNavItem.routeName)">
+          <v-list-tile @click="goToRoute(aLeftNavItem.routeName)">
+            <v-list-tile-action>
               <v-icon>{{ aLeftNavItem.icon }}</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
@@ -26,23 +26,27 @@
 </template>
 
 <script>
-  export default {
-    name: 'LeftTabToolbar',
-    props: {
-      source: String,
+export default {
+  name: 'LeftTabToolbar',
+  props: {
+    source: String,
+  },
+  data() {
+    return {
+      drawer: true,
+      leftNavItems: [
+        { name: 'Dashboard', icon: 'dashboard', routeName: 'Dashboard' },
+        { name: 'Submit Service Failure Request', icon: 'add', routeName: 'ServiceFailureForm' },
+        {name: 'See All SFR', icon: 'add', routeName: 'ServiceFailures'}
+        ],
+    };
+  },
+  methods: {
+    goToRoute(aRouteString) {
+      this.$router.push({
+        name: aRouteString,
+      });
     },
-    data() {
-      return {
-        drawer: true,
-        leftNavItems: [{ name: 'Dashboard', icon: 'dashboard', routeName: 'Home' }, { name: 'Submit Service Failure Request', icon: 'add', routeName: 'ServiceFailureForm' }],
-      };
-    },
-    methods: {
-      goToRoute(aRouteString) {
-        this.$router.push({
-          name: aRouteString,
-        });
-      },
-    },
-  };
+  },
+};
 </script>

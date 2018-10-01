@@ -1,7 +1,23 @@
 <template>
   <div class="hello">
     <v-content>
-      <div>Put stuff here</div>
+      <v-tabs
+        color="blue"
+        dark
+        slider-color="green lighten-3">
+        <v-tab
+          v-for="tabItem in tabItems"
+          :key="tabItem"
+          ripple
+          @click="directRouteTo(tabItem)"
+        >
+          {{ tabItem }}
+        </v-tab>
+      </v-tabs>
+
+      <!--Render the tab content-->
+      <router-view name="tabContent"></router-view>
+
     </v-content>
   </div>
 </template>
@@ -9,19 +25,15 @@
 <script>
 export default {
   name: 'Home',
-  props: {
-    source: String,
-  },
   data() {
     return {
-      drawer: true,
-      leftNavItems: [{ name: 'Dashboard', icon: 'dashboard', routeName: 'Home' }, { name: 'Submit Service Failure Request', icon: 'add', routeName: 'ServiceFailureForm' }],
+      tabItems: ['Dashboard', 'About', 'Contact'],
     };
   },
   methods: {
-    goToRoute(aRouteString) {
+    directRouteTo(routeString) {
       this.$router.push({
-        name: aRouteString,
+        name: routeString,
       });
     },
   },
