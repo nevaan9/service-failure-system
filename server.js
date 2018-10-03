@@ -54,7 +54,7 @@ fs.readdirSync('./src/controllers').forEach(file => {
 
 app.get('/api/current_user', isLoggedIn, function(req, res){
   if (req.user) {
-    res.send({current_user: req.user});
+    res.status(200).send({current_user: req.user});
   }
 });
 
@@ -64,7 +64,7 @@ function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()){
     return next();
   } else {
-    res.status(403).send({success: false, msg: 'Unauthorized'});
+    res.status(401).send({success: false, msg: 'Unauthorized'});
   }
 }
 
@@ -78,12 +78,15 @@ app.get('/test', function(req, res){
   res.json({msg: 'API Initialized!'});
 });
 
-app.use(history());
-app.use(serveStatic(__dirname + "/dist"));
 
 // Port
 const port = process.env.API_PORT || 8081;
 app.use('/', router);
+
+
+app.use(history());
+app.use(serveStatic(__dirname + "/dist"));
+
 app.listen(port, function(){
   console.log(`api running on port ${port}`);
 });

@@ -15,16 +15,25 @@ module.exports.controller = (app) => {
   // local strategy
   passport.use(new LocalStrategy({
     usernameField: 'email',
-    passwordField: 'password'
-  }, (email, password, done) => {
+    passwordField: 'password',
+    passReqToCallback: true,
+  }, (req, email, password, done) => {
     User.getUserByEmail(email, (err, user) => {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false); }
+      if (err) {
+        return done(err);
+      }
+      if (!user) {
+        req.authError = {message: 'Invalid Email', code: 401};
+        return done(null, false);
+      }
       User.comparePassword(password, user.password, (error, isMatch) => {
         if (isMatch) {
+          req.success = {user};
           return done(null, user);
+        } else {
+          req.authError = {message: 'Invalid Password', code: 400};
+          return done(null, false);
         }
-        return done(null, false);
       });
       return true;
     })
@@ -48,8 +57,14 @@ module.exports.controller = (app) => {
   });
 
   // User login
-  app.post('/users/login', passport.authenticate('local', {failureRedirect: '/users/login'}), (req, res) => {
-    res.send({message: 'ok'});
+  app.post('/users/login', passport.authenticate('local', { failWithError: true }), (req, res) => {
+    res.status(200).send({message: 'Login Success!'});
+  }, (error, request, response, next) => {
+    if (request.authError){
+      (request.authError.code === 401) ? response.status(request.authError.code).send({message: 'Invalid User', code: 1}) : response.status(request.authError.code).send({message: 'Invalid Passwprd', code: 2});
+    } else if (request.success) {
+      response.status(200).send(request.success);
+    }
   });
 
   passport.serializeUser((user, done) => {

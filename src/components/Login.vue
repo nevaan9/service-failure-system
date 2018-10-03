@@ -84,12 +84,10 @@ export default {
         }).catch((error) => {
           if (error.response.data.code === 1) {
             this.notValidUser = true;
-            this.userErrorMessages.push('Not a valid username');
-          } else if (error.response.data.code === 2)  {
+            this.userErrorMessages = ['Invalid Email'];
+          } else if (error.response.data.code === 2) {
             this.passwordIncorrect = true;
-            this.passwordErrorMessages.push('Incorrect password');
-          } else {
-            this.$router.push({ name: 'Login' });
+            this.passwordErrorMessages = ['Invalid Password'];
           }
         });
       }
