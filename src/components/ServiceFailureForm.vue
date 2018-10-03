@@ -120,7 +120,7 @@ export default {
       // This validates the text fields
       if (this.$refs.form.validate()) {
         // Submit the data to the DB
-        return this.axios.post('http://localhost:8081/submit-service-failure',
+        return this.axios.post('/submit-service-failure',
           {
             name: this.name,
             email: this.email,

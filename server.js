@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
 const fs = require('fs');
-const User = require('./src/models/User');
+const session = require('express-session');
+const config = require('./config/Config');
 
 // Get the authentication stuff
 const jwt = require('jsonwebtoken');
@@ -16,32 +17,25 @@ const jwtOptions = {};
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
 jwtOptions.secretOrKey = 'thisisasecretkey';
 
-// passport.use(new JwtStrategy(jwtOptions, function(jwt_payload, done) {
-//   console.log(jwt_payload);
-//   User.findOne({_id: jwt_payload.id}, function(err, user) {
-//     if (err) {
-//       return done(err, false);
-//     }
-//     if (user) {
-//       console.log(user);
-//       return done(null, user);
-//     } else {
-//       return done(null, false);
-//       // or you could create a new account
-//     }
-//   });
-// }));
-
 const app = express();
 const router = express.Router();
 const serveStatic = require('serve-static');
 const history = require('connect-history-api-fallback');
-// app.use(passport.initialize());
+
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
+app.use(session({
+  secret: config.SECRET,
+  resave: true,
+  saveUninitialized: true,
+  cookie: { httpOnly: false }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 // Connect to mongoDB
 mongoose.connect('mongodb://localhost:27017/PexServiceFailure', function(){
   console.log('Connection Made');
@@ -58,13 +52,34 @@ fs.readdirSync('./src/controllers').forEach(file => {
   }
 });
 
-app.use(history());
-app.use(serveStatic(__dirname + "/dist"));
+app.get('/api/current_user', isLoggedIn, function(req, res){
+  if (req.user) {
+    res.send({current_user: req.user});
+  }
+});
 
 
-router.get('/', function(req, res){
+function isLoggedIn(req, res, next) {
+  console.log(req.isAuthenticated());
+  if (req.isAuthenticated()){
+    return next();
+  } else {
+    res.status(403).send({success: false, msg: 'Unauthorized'});
+  }
+}
+
+app.get('/api/logout', function(req, res) {
+  req.logout();
+  res.send();
+});
+
+
+app.get('/test', function(req, res){
   res.json({msg: 'API Initialized!'});
 });
+
+app.use(history());
+app.use(serveStatic(__dirname + "/dist"));
 
 // Port
 const port = process.env.API_PORT || 8081;

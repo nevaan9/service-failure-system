@@ -19,8 +19,6 @@ module.exports.controller = (app) => {
     });
   });
 
-  // passport.authenticate('jwt', { session:false })
-
   app.get('/all-service-failures', (req, res) => {
     ServiceFailureSchema.find({}, 'name email description', (error, serviceFailiures) => {
       if (error) { console.log(error)}

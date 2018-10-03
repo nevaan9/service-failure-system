@@ -27,6 +27,9 @@ export default new Router({
         content: Login,
         footer: Footer,
       },
+      meta: {
+        authNotRequired: true,
+      },
     },
     {
       path: '/Home',

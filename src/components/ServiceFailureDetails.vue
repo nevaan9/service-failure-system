@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     fetchDetails(routeString) {
-      return this.axios.get(`http://localhost:8081/aServiceFailure/${String(routeString)}`,
+      return this.axios.get(`/aServiceFailure/${String(routeString)}`,
         {
           'Content-Type': 'application/json'
         }

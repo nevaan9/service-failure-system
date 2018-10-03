@@ -50,7 +50,7 @@
         const token = window.localStorage.getItem('auth');
         return this.axios({
           method: 'get',
-          url: 'http://localhost:8081/all-service-failures',
+          url: '/all-service-failures',
           headers: {
             Authorization: `JWT ${token}`,
             'Content-Type': 'application/json',

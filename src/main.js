@@ -14,6 +14,35 @@ Vue.use(Vuetify);
 // Use Axios
 Vue.use(VueAxios, axios);
 
+// add the router guards
+router.beforeEach((to, from, next) => {
+  // TODO make the if and else one
+  if (!to.matched.some(record => record.meta.authNotRequired)) {
+    return axios({
+      method: 'get',
+      url: '/api/current_user',
+    }).then((response) => {
+        next();
+      })
+      .catch((err) => {
+        return next('/');
+      });
+  } else {
+    // This means someone tried to access the login page
+
+    // If user is alread looged in, redirect to the Home page
+    return axios({
+      method: 'get',
+      url: '/api/current_user',
+    }).then((response) => {
+      next('/Home/Dashboard');
+    }).catch((err) => {
+        return next();
+    });
+  }
+});
+
+
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
