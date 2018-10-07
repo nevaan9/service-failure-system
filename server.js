@@ -36,6 +36,7 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 // Connect to mongoDB
 mongoose.connect('mongodb://localhost:27017/PexServiceFailure', function(){
   console.log('Connection Made');
@@ -51,33 +52,6 @@ fs.readdirSync('./src/controllers').forEach(file => {
     route.controller(app);
   }
 });
-
-app.get('/api/current_user', isLoggedIn, function(req, res){
-  if (req.user) {
-    res.status(200).send({current_user: req.user});
-  }
-});
-
-
-function isLoggedIn(req, res, next) {
-  console.log(req.isAuthenticated());
-  if (req.isAuthenticated()){
-    return next();
-  } else {
-    res.status(401).send({success: false, msg: 'Unauthorized'});
-  }
-}
-
-app.get('/api/logout', function(req, res) {
-  req.logout();
-  res.send();
-});
-
-
-app.get('/test', function(req, res){
-  res.json({msg: 'API Initialized!'});
-});
-
 
 // Port
 const port = process.env.API_PORT || 8081;

@@ -16,6 +16,16 @@
             </v-list-tile-content>
           </v-list-tile>
         </div>
+        <div :key="logout">
+          <v-list-tile @click="logout">
+            <v-list-tile-action>
+              <v-icon>lock</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Logout</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </div>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-left>
@@ -45,6 +55,16 @@ export default {
     goToRoute(aRouteString) {
       this.$router.push({
         name: aRouteString,
+      });
+    },
+    logout(){
+      return this.axios({
+        method: 'get',
+        url: '/api/logout',
+      }).then(() => {
+        this.$router.push('/');
+      }).catch(() => {
+        // Error
       });
     },
   },

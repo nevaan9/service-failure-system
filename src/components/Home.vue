@@ -1,23 +1,28 @@
 <template>
   <div class="hello">
     <v-content>
-      <v-tabs
-        color="blue"
-        dark
-        slider-color="green lighten-3">
-        <v-tab
-          v-for="tabItem in tabItems"
-          :key="tabItem"
-          ripple
-          @click="directRouteTo(tabItem)"
-        >
-          {{ tabItem }}
-        </v-tab>
-      </v-tabs>
+        <v-container fill-height>
+          <v-layout row>
+            <v-flex xs12>
+              <v-tabs
+                color="blue"
+                dark
+                slider-color="green lighten-3">
+                <v-tab
+                  v-for="tabItem in tabItems"
+                  :key="tabItem"
+                  ripple
+                  @click="directRouteTo(tabItem)"
+                >
+                  {{ tabItem }}
+                </v-tab>
+              </v-tabs>
 
-      <!--Render the tab content-->
-      <router-view name="tabContent"></router-view>
-
+              <!--Render the tab content-->
+              <router-view name="tabContent"></router-view>
+            </v-flex>
+          </v-layout>
+      </v-container>
     </v-content>
   </div>
 </template>

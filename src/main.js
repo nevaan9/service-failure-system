@@ -3,16 +3,29 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify';
 import axios from 'axios';
+
 import VueAxios from 'vue-axios';
 import 'vuetify/dist/vuetify.min.css';
 import App from './App';
 import router from './router';
+import Vuex from 'vuex';
+
+Vue.config.devtools = true;
 
 // Use Vuetify
 Vue.use(Vuetify);
-
 // Use Axios
 Vue.use(VueAxios, axios);
+// Use vuex
+Vue.use(Vuex);
+
+// Import the vuex store
+const store = new Vuex.Store({
+  state: {
+    tets: 1,
+  }
+});
+
 
 // add the router guards
 router.beforeEach((to, from, next) => {
@@ -51,4 +64,5 @@ new Vue({
   router,
   components: { App },
   template: '<App/>',
+  store: store,
 });
