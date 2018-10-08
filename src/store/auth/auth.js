@@ -22,9 +22,7 @@ export default {
         {
           'Content-Type': 'application/json',
         },
-      ).then((res) => {
-        commit('logUser', {email: res.data.user.email, name: res.data.user.name})
-      }).catch((err) => {
+      ).catch((err) => {
         throw err
       })
     }

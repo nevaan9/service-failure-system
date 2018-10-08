@@ -33,6 +33,7 @@ router.beforeEach((to, from, next) => {
       method: 'get',
       url: '/api/current_user',
     }).then((response) => {
+        store.commit('auth/logUser', {name: response.data.current_user.name, email: response.data.current_user.email});
         next();
       })
       .catch((err) => {
@@ -46,6 +47,7 @@ router.beforeEach((to, from, next) => {
       method: 'get',
       url: '/api/current_user',
     }).then((response) => {
+      store.commit('auth/logUser', {name: response.data.current_user.name, email: response.data.current_user.email});
       next('/Home/Dashboard');
     }).catch((err) => {
         return next();
