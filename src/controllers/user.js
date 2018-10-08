@@ -58,10 +58,10 @@ module.exports.controller = (app) => {
 
   // User login
   app.post('/users/login', passport.authenticate('local', { failWithError: true }), (req, res) => {
-    res.status(200).send({message: 'Login Success!'});
+    res.status(200).send(req);
   }, (error, request, response, next) => {
     if (request.authError){
-      (request.authError.code === 401) ? response.status(request.authError.code).send({message: 'Invalid User', code: 1}) : response.status(request.authError.code).send({message: 'Invalid Passwprd', code: 2});
+      (request.authError.code === 401) ? response.status(request.authError.code).send({message: 'Invalid User', code: 1}) : response.status(request.authError.code).send({message: 'Invalid Password', code: 2});
     } else if (request.success) {
       response.status(200).send(request.success);
     }

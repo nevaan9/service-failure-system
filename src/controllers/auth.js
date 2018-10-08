@@ -5,7 +5,6 @@ module.exports.controller = (app) => {
     }
   });
 
-
   function isLoggedIn(req, res, next) {
     console.log(req.isAuthenticated());
     if (req.isAuthenticated()){

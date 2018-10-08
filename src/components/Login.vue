@@ -35,7 +35,7 @@
               <v-spacer></v-spacer>
               <v-btn
                 color="primary"
-                @click="login">Login</v-btn>
+                @click="sendLogin">Login</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'Login',
   data() {
@@ -62,39 +64,31 @@ export default {
     };
   },
   methods: {
-    // TODO: Learn what async does!
-    async login() {
+    ...mapActions('auth', ['login']),
+    clear() {
+      this.$refs.form.reset();
+    },
+    sendLogin () {
       this.passwordIncorrect = false;
       this.notValidUser = false;
       this.userErrorMessages = [];
       this.passwordErrorMessages = [];
-      if (this.$refs.form.validate()){
-        return this.axios.post('http://localhost:8081/users/login',
-          {
-            email: this.email,
-            password: this.password
-          },
-          {
-            'Content-Type': 'application/json',
-          },
-        ).then((response) => {
-          // TODO Learn what local storage does
-          window.localStorage.setItem('auth', response.data.token);
-          this.$router.push({ name: 'Home' });
-        }).catch((error) => {
-          if (error.response.data.code === 1) {
+      if (this.$refs.form.validate()) {
+        this.login(
+          { email: this.email, password: this.password }
+          ).then(() => {
+            this.$router.push({ name: 'Home' });
+        }).catch((err) => {
+          if (err.response.data.code === 1) {
             this.notValidUser = true;
             this.userErrorMessages = ['Invalid Email'];
-          } else if (error.response.data.code === 2) {
+          } else if (err.response.data.code === 2) {
             this.passwordIncorrect = true;
             this.passwordErrorMessages = ['Invalid Password'];
           }
         });
       }
     },
-    clear() {
-      this.$refs.form.reset();
-    }
   }
 };
 </script>
