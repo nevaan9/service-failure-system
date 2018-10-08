@@ -22,6 +22,13 @@
                   label="E-mail"
                   required
                 ></v-text-field>
+                <v-text-field
+                  disabled
+                  outline
+                  v-model="date"
+                  label="Date"
+                  required
+                ></v-text-field>
                 <v-textarea
                   outline
                   :rules="descriptionRules"
@@ -64,12 +71,6 @@
                   >(+{{ value.length - 3 }} others)</span>
                 </template>
               </v-select>
-              <v-date-picker
-                outline
-                v-model="date"
-                :show-current="currentDate"
-                color="blue"
-              />
               <v-btn
                 :disabled="!valid"
                 @click="submit">
@@ -86,6 +87,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'ServiceRequestForm',
   data: () => ({
@@ -117,14 +119,14 @@ export default {
     const dateOb = new Date();
     const month = dateOb.getUTCMonth() + 1 < 10 ? '-0' + (dateOb.getUTCMonth() + 1).toString() : '-' + (dateOb.getUTCMonth() + 1).toString();
     // eslint-disable-next-line
-    this.currentDate = dateOb.getUTCFullYear().toString() + month + '-' + dateOb.getUTCDate().toString();
-    console.log(this.currentDate)
-    // eslint-disable-next-line
     this.date = dateOb.getUTCFullYear().toString() + month + '-' + dateOb.getUTCDate().toString();
     console.log(this.date);
     this.serviceLevelCategory = this.items[0];
     this.processFailure = this.items[0];
     this.getCurrentUser();
+  },
+  computed: {
+    ...mapState('auth', ['current_user']),
   },
   methods: {
     submit() {
@@ -159,18 +161,8 @@ export default {
       this.$refs.form.reset();
     },
     getCurrentUser() {
-      let vm = this;
-      this.axios({
-        method: 'get',
-        url: '/api/current_user'
-      }).then((res) => {
-        let currentUser = res.data.current_user;
-        vm.currentuser = currentUser;
-        vm.name = currentUser.name;
-        vm.email = currentUser.email;
-      }).catch((err) => {
-        // Error logs
-      });
+      this.name = this.current_user.name;
+      this.email = this.current_user.email;
     },
   },
 };
