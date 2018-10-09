@@ -41,19 +41,14 @@
               <v-select
                 required
                 outline
-                :items="items"
+                :items="processes"
+                item-text="name"
                 v-model="processFailure"
                 label="Process Where Failure Originated"
               ></v-select>
               <v-select
                 outline
-                :items="items"
-                v-model="serviceLevelCategory"
-                label="Service Level Category"
-              ></v-select>
-              <v-select
-                outline
-                :items="items"
+                :items="members"
                 v-model="value"
                 label="Select Item"
                 multiple
@@ -87,7 +82,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'ServiceRequestForm',
   data: () => ({
@@ -107,11 +102,9 @@ export default {
       v => !!v || 'Description is required',
       v => (v && v.length <= 1000) || 'Description has to be less than 1000 characters',
     ],
-    items: ['foo', 'bar', 'fizz', 'buzz', 'fizzbuzz', 'foobar'],
-    value: ['foo', 'bar', 'fizz'],
+    members: ['Nevaan Perera', 'Toni Kroos', 'Jeff Bezos'],
+    value: ['Nevaan Perera', 'Jeff Bezos'],
     date: null,
-    currentDate: null,
-    serviceLevelCategory: null,
     processFailure: null,
     currentuser: null,
   }),
@@ -121,14 +114,16 @@ export default {
     // eslint-disable-next-line
     this.date = dateOb.getUTCFullYear().toString() + month + '-' + dateOb.getUTCDate().toString();
     console.log(this.date);
-    this.serviceLevelCategory = this.items[0];
-    this.processFailure = this.items[0];
+    this.processFailure = this.processes[0];
     this.getCurrentUser();
+    this.getProcesses();
   },
   computed: {
     ...mapState('auth', ['current_user']),
+    ...mapState('serviceFailureForm', ['processes']),
   },
   methods: {
+    ...mapActions('serviceFailureForm', ['getProcesses']),
     submit() {
       // This validates the text fields
       if (this.$refs.form.validate()) {

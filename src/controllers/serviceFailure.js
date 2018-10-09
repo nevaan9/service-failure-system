@@ -1,5 +1,4 @@
 const ServiceFailureSchema = require('../models/ServiceFailure');
-const passport = require('passport');
 
 module.exports.controller = (app) => {
   // add a new service failure

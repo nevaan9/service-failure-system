@@ -9,6 +9,7 @@ import App from './App';
 import router from './router';
 import Vuex from 'vuex';
 import auth from './store/auth/auth'
+import serviceFailureForm from './store/SFF/SFF'
 
 Vue.config.devtools = true;
 
@@ -22,6 +23,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   modules: {
     auth,
+    serviceFailureForm,
   }
 });
 
