@@ -41,7 +41,7 @@
               <v-select
                 required
                 outline
-                :items="processes"
+                :items="allProcesses"
                 item-text="name"
                 v-model="processFailure"
                 label="Process Where Failure Originated"
@@ -108,22 +108,26 @@ export default {
     processFailure: null,
     currentuser: null,
   }),
+  watch: {
+    processFailure () {
+
+    }
+  },
   created() {
     const dateOb = new Date();
     const month = dateOb.getUTCMonth() + 1 < 10 ? '-0' + (dateOb.getUTCMonth() + 1).toString() : '-' + (dateOb.getUTCMonth() + 1).toString();
     // eslint-disable-next-line
     this.date = dateOb.getUTCFullYear().toString() + month + '-' + dateOb.getUTCDate().toString();
     console.log(this.date);
-    this.processFailure = this.processes[0];
     this.getCurrentUser();
     this.getProcesses();
   },
   computed: {
     ...mapState('auth', ['current_user']),
-    ...mapState('serviceFailureForm', ['processes']),
+    ...mapState('Process', ['allProcesses']),
   },
   methods: {
-    ...mapActions('serviceFailureForm', ['getProcesses']),
+    ...mapActions('Process', ['getProcesses']),
     submit() {
       // This validates the text fields
       if (this.$refs.form.validate()) {

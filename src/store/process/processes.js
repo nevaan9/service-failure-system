@@ -2,14 +2,17 @@ import axios from 'axios';
 export default {
   namespaced: true,
   state: {
-    processes: []
+    allProcesses: [],
   },
   getters: {
 
   },
   mutations: {
     getProcesses (state, payload) {
-      state.processes = payload.data.processes;
+      state.allProcesses = payload.data.processes;
+    },
+    getProcessMembers(state, payload) {
+
     }
   },
   actions: {
@@ -20,6 +23,9 @@ export default {
       }).catch((err) => {
         throw err
       });
+    },
+    getProcessMembers ({ commit }) {
+
     }
   }
 }
