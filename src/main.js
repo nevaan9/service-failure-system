@@ -11,6 +11,10 @@ import Vuex from 'vuex';
 import auth from './store/auth/auth'
 import Process from './store/process/processes'
 
+// Use socket iO
+import VueSocketio from 'vue-socket.io';
+Vue.use(VueSocketio, 'http://socketserver.com:1923');
+
 Vue.config.devtools = true;
 
 // Use Vuetify

@@ -4,31 +4,31 @@
         <v-container fill-height>
           <v-layout row>
             <v-flex xs12>
+              <v-text-field
+                disabled
+                outline
+                v-model="name"
+                :rules="nameRules"
+                :counter="25"
+                label="Name"
+                required
+              ></v-text-field>
+              <v-text-field
+                disabled
+                outline
+                v-model="email"
+                :rules="emailRules"
+                label="E-mail"
+                required
+              ></v-text-field>
+              <v-text-field
+                disabled
+                outline
+                v-model="date"
+                label="Date"
+                required
+              ></v-text-field>
               <v-form ref="form" v-model="valid" lazy-validation>
-                <v-text-field
-                  disabled
-                  outline
-                  v-model="name"
-                  :rules="nameRules"
-                  :counter="25"
-                  label="Name"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  disabled
-                  outline
-                  v-model="email"
-                  :rules="emailRules"
-                  label="E-mail"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  disabled
-                  outline
-                  v-model="date"
-                  label="Date"
-                  required
-                ></v-text-field>
                 <v-textarea
                   outline
                   :rules="descriptionRules"
@@ -41,15 +41,18 @@
               <v-select
                 required
                 outline
-                :items="allProcesses"
                 item-text="name"
-                v-model="processFailure"
+                item-value="_id"
+                v-model="selectedProcessFailure"
+                :items="allProcesses"
                 label="Process Where Failure Originated"
               ></v-select>
               <v-select
                 outline
                 :items="members"
-                v-model="value"
+                item-text="name"
+                item-value="name"
+                v-model="selectedMember"
                 label="Select Item"
                 multiple
               >
@@ -58,7 +61,7 @@
                   slot-scope="{ item, index }"
                 >
                   <v-chip v-for="n in 3" v-if="index === n-1" v-bind:key="n">
-                    <span>{{ item }}</span>
+                    <span>{{ item.name }}</span>
                   </v-chip>
                   <span
                     v-if="index === 3"
@@ -82,7 +85,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   name: 'ServiceRequestForm',
   data: () => ({
@@ -102,10 +105,9 @@ export default {
       v => !!v || 'Description is required',
       v => (v && v.length <= 1000) || 'Description has to be less than 1000 characters',
     ],
-    members: ['Nevaan Perera', 'Toni Kroos', 'Jeff Bezos'],
-    value: ['Nevaan Perera', 'Jeff Bezos'],
+    selectedMember: [],
     date: null,
-    processFailure: null,
+    selectedProcessFailure: "",
     currentuser: null,
   }),
   watch: {
@@ -125,6 +127,14 @@ export default {
   computed: {
     ...mapState('auth', ['current_user']),
     ...mapState('Process', ['allProcesses']),
+    ...mapState('Process', ['selectedProcess']),
+    ...mapGetters('Process', ['getSelectedProcessMembers']),
+    selectedPF () {
+      return this.selectedProcessFailure
+    },
+    members () {
+      return this.getSelectedProcessMembers(this.selectedPF);
+    }
   },
   methods: {
     ...mapActions('Process', ['getProcesses']),
@@ -153,6 +163,8 @@ export default {
             // eslint-disable-next-line
             console.log(err);
           });
+      } else {
+        alert('All fields must be filled!')
       }
       return true;
     },

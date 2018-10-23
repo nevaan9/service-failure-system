@@ -3,17 +3,25 @@ export default {
   namespaced: true,
   state: {
     allProcesses: [],
+    selectedProcess: null,
   },
   getters: {
-
+    getSelectedProcessMembers (state) {
+      return function (processID) {
+        let members = []
+        state.allProcesses.forEach((process) => {
+          if (process._id === processID) {
+            members = process.members
+          }
+        });
+        return members
+      }
+    }
   },
   mutations: {
     getProcesses (state, payload) {
       state.allProcesses = payload.data.processes;
     },
-    getProcessMembers(state, payload) {
-
-    }
   },
   actions: {
     getProcesses ({ commit }) {
