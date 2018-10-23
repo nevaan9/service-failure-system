@@ -12,8 +12,10 @@ import auth from './store/auth/auth'
 import Process from './store/process/processes'
 
 // Use socket iO
-import VueSocketio from 'vue-socket.io';
-Vue.use(VueSocketio, 'http://socketserver.com:1923');
+// import VueSocketio from 'vue-socket.io';
+// import socketio from 'socket.io-client'
+
+//Vue.use(VueSocketio, socketio('http://localhost:8081'), store);
 
 Vue.config.devtools = true;
 

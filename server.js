@@ -53,6 +53,21 @@ fs.readdirSync('./src/controllers').forEach(file => {
   }
 });
 
+app.get('/testAPI', (req, res) => {
+  res.send('HELLO WORLD!');
+  io.on('connection', function(socket){
+    console.log("User Connected");
+    socket.on('chat message', function(msg){
+      io.emit('chat message', msg);
+      console.log("Message");
+    });
+    socket.on('disconnect', function(msg){
+      console.log("User DisConnected");
+    });
+
+  });
+});
+
 // Port
 const port = process.env.API_PORT || 8081;
 app.use('/', router);
@@ -61,6 +76,16 @@ app.use('/', router);
 app.use(history());
 app.use(serveStatic(__dirname + "/dist"));
 
-app.listen(port, function(){
+const server = app.listen(port, function(){
   console.log(`api running on port ${port}`);
 });
+
+var io = require('socket.io').listen(server);
+
+io.on('connection', function(socket) {
+  console.log(`Connected to socket with socketID: ${socket.id}`);
+  socket.on('SEND_MESSAGE', function(data) {
+    io.emit('MESSAGE', data)
+  });
+});
+
