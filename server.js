@@ -53,21 +53,6 @@ fs.readdirSync('./src/controllers').forEach(file => {
   }
 });
 
-app.get('/testAPI', (req, res) => {
-  res.send('HELLO WORLD!');
-  io.on('connection', function(socket){
-    console.log("User Connected");
-    socket.on('chat message', function(msg){
-      io.emit('chat message', msg);
-      console.log("Message");
-    });
-    socket.on('disconnect', function(msg){
-      console.log("User DisConnected");
-    });
-
-  });
-});
-
 // Port
 const port = process.env.API_PORT || 8081;
 app.use('/', router);
