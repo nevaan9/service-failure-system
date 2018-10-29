@@ -85,6 +85,7 @@ new Vue({
   },
   mounted() {
     this.$socket.on('MESSAGE', (data) => {
+      // According to some logic, emit notifications to users!
       this.$notofication(data)
     });
   }
