@@ -43,13 +43,6 @@
       }
     },
     methods: {
-      sendMessage() {
-        this.$socket.emit('SEND_MESSAGE', {
-          user: this.user,
-          message: this.message
-        });
-        this.message = ''
-      }
     }
   }
 </script>

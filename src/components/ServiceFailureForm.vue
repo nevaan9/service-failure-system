@@ -37,24 +37,28 @@
                   label="Description"
                   required
                 ></v-textarea>
+                <v-select
+                  required
+                  outline
+                  item-text="name"
+                  item-value="_id"
+                  v-model="selectedProcessFailure"
+                  :items="allProcesses"
+                  label="Process Where Failure Originated"
+                  :error="selectProcessError"
+                  :error-messages="errorMessage"
+                ></v-select>
               </v-form>
-              <v-select
-                required
-                outline
-                item-text="name"
-                item-value="_id"
-                v-model="selectedProcessFailure"
-                :items="allProcesses"
-                label="Process Where Failure Originated"
-              ></v-select>
               <v-select
                 outline
                 :items="members"
                 item-text="name"
                 item-value="name"
                 v-model="selectedMember"
-                label="Select Item"
+                label="Select Members to CC"
                 multiple
+                :error="selectMemberError"
+                :error-messages="errorMessage"
               >
                 <template
                   slot="selection"
@@ -70,7 +74,6 @@
                 </template>
               </v-select>
               <v-btn
-                :disabled="!valid"
                 @click="submit">
                 submit
               </v-btn>
@@ -89,7 +92,6 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   name: 'ServiceRequestForm',
   data: () => ({
-    valid: false,
     name: '',
     nameRules: [
       v => !!v || 'Name is required',
@@ -109,10 +111,13 @@ export default {
     date: null,
     selectedProcessFailure: "",
     currentuser: null,
+    selectProcessError: false,
+    selectMemberError: false,
+    errorMessage: []
   }),
   watch: {
-    processFailure () {
-
+    selectedPF () {
+      this.selectedMember = []
     }
   },
   created() {
@@ -140,7 +145,7 @@ export default {
     ...mapActions('Process', ['getProcesses']),
     submit() {
       // This validates the text fields
-      if (this.$refs.form.validate()) {
+      if (this.$refs.form.validate() && this.validateSelect()) {
         // Submit the data to the DB
         return this.axios.post('/submit-service-failure',
           {
@@ -163,10 +168,8 @@ export default {
             // eslint-disable-next-line
             console.log(err);
           });
-      } else {
-        alert('All fields must be filled!')
       }
-      return true;
+      return false
     },
     clear() {
       this.$refs.form.reset();
@@ -175,6 +178,23 @@ export default {
       this.name = this.current_user.name;
       this.email = this.current_user.email;
     },
+    validateSelect() {
+      this.errorMessage = []
+      this.selectProcessError = false
+      this.selectMemberError = false
+      if (this.selectedProcessFailure && this.selectedMember.length) {
+        return true
+      } else {
+        if (!this.selectedProcessFailure) {
+          this.selectProcessError = true
+        }
+
+        if (!this.selectedMember.length) {
+          this.selectMemberError = true
+          this.errorMessage = ['Required Field']
+        }
+      }
+    }
   },
 };
 </script>

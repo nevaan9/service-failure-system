@@ -70,7 +70,7 @@ var io = require('socket.io').listen(server);
 io.on('connection', function(socket) {
   console.log(`Connected to socket with socketID: ${socket.id}`);
   socket.on('SEND_MESSAGE', function(data) {
-    io.emit('MESSAGE', data)
+    io.emit('NOTIFICATION', data)
   });
 });
 
