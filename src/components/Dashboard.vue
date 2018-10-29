@@ -24,31 +24,6 @@
         <v-btn @click="sendMessage">Send</v-btn>
       </form>
     </div>
-    <div>
-      <div v-for="aMessage in messages">
-        <p>{{aMessage.user}}</p>
-        <p>{{aMessage.message}}</p>
-      </div>
-    </div>
-    <v-snackbar
-      v-model="snackbar"
-      :bottom="y === 'bottom'"
-      :left="x === 'left'"
-      :multi-line="mode === 'multi-line'"
-      :right="x === 'right'"
-      :timeout="timeout"
-      :top="y === 'top'"
-      :vertical="mode === 'vertical'"
-    >
-      {{ text }}
-      <v-btn
-        color="pink"
-        flat
-        @click="snackbar = false"
-      >
-        Close
-      </v-btn>
-    </v-snackbar>
   </div>
 </template>
 
@@ -75,13 +50,6 @@
         });
         this.message = ''
       }
-    },
-    mounted() {
-      this.$socket.on('MESSAGE', (data) => {
-        this.messages = [...this.messages, data];
-        this.snackbar = true
-        // you can also do this.messages.push(data)
-      });
     }
   }
 </script>

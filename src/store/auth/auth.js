@@ -3,6 +3,7 @@ export default {
   namespaced: true,
   state: {
     current_user: null,
+    notification: []
   },
   getters: {
 
@@ -11,6 +12,12 @@ export default {
     logUser(state, payload) {
       state.current_user = payload;
     },
+    userNotification (state, payload) {
+      state.notification.push(payload)
+    },
+    notificationProcessed (state) {
+      state.notification.shift()
+    }
   },
   actions: {
     login ({ commit }, payload) {

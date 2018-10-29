@@ -16,6 +16,10 @@ import VueSocketio from 'vue-socket.io';
 import socketio from 'socket.io-client'
 // import io from 'socket.io-client';
 
+// plugins
+import pexNotification from '@/plugins/pex-notification'
+Vue.use(pexNotification)
+
 Vue.use(VueSocketio, socketio('http://localhost:8081'));
 
 Vue.config.devtools = true;
@@ -30,7 +34,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   modules: {
     auth,
-    Process,
+    Process
   }
 });
 
@@ -79,4 +83,11 @@ new Vue({
       console.log('socket connected')
     }
   },
+  mounted() {
+    this.$socket.on('MESSAGE', (data) => {
+      this.$notofication(data)
+    });
+  }
 });
+
+export default store

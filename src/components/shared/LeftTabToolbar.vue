@@ -1,5 +1,8 @@
 <template>
   <div>
+    <!-- This is a notification -->
+    <pex-notification></pex-notification>
+
     <v-navigation-drawer
       absolute
       temporary
@@ -36,10 +39,14 @@
 </template>
 
 <script>
+  import pexNotification from '@/components/shared/pexNotification'
 export default {
   name: 'LeftTabToolbar',
   props: {
     source: String,
+  },
+  components: {
+    pexNotification
   },
   data() {
     return {
