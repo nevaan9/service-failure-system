@@ -1,8 +1,8 @@
 <template>
   <div class="hello">
-    <v-content>
+    <v-content fill-height>
         <v-container fill-height>
-          <v-layout row>
+          <v-layout fill-height row>
             <v-flex xs12>
               <v-tabs
                 color="blue"

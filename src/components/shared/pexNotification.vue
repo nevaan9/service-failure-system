@@ -1,15 +1,16 @@
 <template>
   <v-snackbar
+    v-if="currentNotification"
     v-model="snackbar"
     :bottom="y === 'bottom'"
     :left="x === 'left'"
-    :multi-line="mode === 'multi-line'"
+    :multi-line="true"
     :right="x === 'right'"
     :timeout="timeout"
     :top="y === 'top'"
-    :vertical="mode === 'vertical'"
   >
-    {{ `${currentNotification.sentBy} sent you a notification`}}
+    {{ `Notification from ${currentNotification.sentBy}`}} <br>
+    {{ `${currentNotification.message.substr(0, 20)}...` }}
     <v-btn
       color="pink"
       flat
@@ -29,8 +30,8 @@
         snackbar: null,
         y: 'top',
         x: 'right',
-        mode: '',
-        timeout: 3000
+        mode: 'multi-line',
+        timeout: 6000
       }
     },
     computed: {
