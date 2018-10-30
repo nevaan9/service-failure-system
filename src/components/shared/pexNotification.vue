@@ -10,7 +10,7 @@
     :top="y === 'top'"
   >
     {{ `Notification from ${currentNotification.sentBy}`}} <br>
-    {{ `${currentNotification.message.substr(0, 20)}...` }}
+    {{ currentNotification.message.length > 30 ? `${currentNotification.message.substr(0, 30)}...`: currentNotification.message}}
     <v-btn
       color="pink"
       flat

@@ -1,90 +1,88 @@
 <template>
-  <div>
-      <v-content>
-        <v-container fill-height>
-          <v-layout row>
-            <v-flex xs12>
-              <v-text-field
-                disabled
+    <v-content fluid fill-height>
+      <v-container fill-height>
+        <v-layout row>
+          <v-flex xs12>
+            <v-text-field
+              disabled
+              outline
+              v-model="name"
+              :rules="nameRules"
+              :counter="25"
+              label="Name"
+              required
+            ></v-text-field>
+            <v-text-field
+              disabled
+              outline
+              v-model="email"
+              :rules="emailRules"
+              label="E-mail"
+              required
+            ></v-text-field>
+            <v-text-field
+              disabled
+              outline
+              v-model="date"
+              label="Date"
+              required
+            ></v-text-field>
+            <v-form ref="form" v-model="valid" lazy-validation>
+              <v-textarea
                 outline
-                v-model="name"
-                :rules="nameRules"
-                :counter="25"
-                label="Name"
+                :rules="descriptionRules"
+                v-model="description"
+                :counter="1000"
+                label="Description"
                 required
-              ></v-text-field>
-              <v-text-field
-                disabled
-                outline
-                v-model="email"
-                :rules="emailRules"
-                label="E-mail"
-                required
-              ></v-text-field>
-              <v-text-field
-                disabled
-                outline
-                v-model="date"
-                label="Date"
-                required
-              ></v-text-field>
-              <v-form ref="form" v-model="valid" lazy-validation>
-                <v-textarea
-                  outline
-                  :rules="descriptionRules"
-                  v-model="description"
-                  :counter="1000"
-                  label="Description"
-                  required
-                ></v-textarea>
-                <v-select
-                  required
-                  outline
-                  item-text="name"
-                  item-value="_id"
-                  v-model="selectedProcessFailure"
-                  :items="allProcesses"
-                  label="Process Where Failure Originated"
-                  :error="selectProcessError"
-                  :error-messages="errorMessage"
-                ></v-select>
-              </v-form>
+              ></v-textarea>
               <v-select
+                required
                 outline
-                :items="members"
                 item-text="name"
                 item-value="_id"
-                v-model="selectedMember"
-                label="Select Members to CC"
-                multiple
-                :error="selectMemberError"
+                v-model="selectedProcessFailure"
+                :items="allProcesses"
+                label="Process Where Failure Originated"
+                :error="selectProcessError"
                 :error-messages="errorMessage"
+              ></v-select>
+            </v-form>
+            <v-select
+              outline
+              :items="members"
+              item-text="name"
+              item-value="_id"
+              v-model="selectedMember"
+              label="Select Members to CC"
+              multiple
+              :error="selectMemberError"
+              :error-messages="errorMessage"
+            >
+              <template
+                slot="selection"
+                slot-scope="{ item, index }"
               >
-                <template
-                  slot="selection"
-                  slot-scope="{ item, index }"
-                >
-                  <v-chip v-for="n in 3" v-if="index === n-1" v-bind:key="n">
-                    <span>{{ item.name }}</span>
-                  </v-chip>
-                  <span
-                    v-if="index === 3"
-                    class="grey--text caption"
-                  >(+{{ value.length - 3 }} others)</span>
-                </template>
-              </v-select>
-              <v-btn
-                @click="submit">
-                submit
-              </v-btn>
-              <v-btn @click="clear">
-                clear
-              </v-btn>
-            </v-flex>
-          </v-layout>
-        </v-container>
-    </v-content>
-  </div>
+                <v-chip v-for="n in 3" v-if="index === n-1" v-bind:key="n">
+                  <span>{{ item.name }}</span>
+                </v-chip>
+                <span
+                  v-if="index === 3"
+                  class="grey--text caption"
+                >(+{{ value.length - 3 }} others)</span>
+              </template>
+            </v-select>
+            <v-btn
+              @click="submit">
+              submit
+            </v-btn>
+            <v-btn @click="clear">
+              clear
+            </v-btn>
+          </v-flex>
+        </v-layout>
+      </v-container>
+  </v-content>
 </template>
 
 <script>

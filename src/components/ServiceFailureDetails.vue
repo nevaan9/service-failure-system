@@ -1,20 +1,18 @@
 <template>
-  <div>
-    <v-content>
-      <div>
-        <v-container grid-list-md text-xs-center>
-          <v-layout row wrap v-for="key in Object.keys(serviceFailureDetails)">
-            <v-flex xs2>
-              <p>{{ key === '_id' ? key.substr(-2) : key }}</p>
-            </v-flex>
-            <v-flex xs10>
-              <p> {{ serviceFailureDetails[key] }} </p>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </div>
-    </v-content>
-  </div>
+  <v-content fluid fill-height>
+    <div>
+      <v-container grid-list-md text-xs-center>
+        <v-layout row wrap v-for="key in Object.keys(serviceFailureDetails)">
+          <v-flex xs2>
+            <p>{{ key === '_id' ? key.substr(-2) : key }}</p>
+          </v-flex>
+          <v-flex xs10>
+            <p> {{ serviceFailureDetails[key] }} </p>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </div>
+  </v-content>
 </template>
 
 <script>
