@@ -8,7 +8,7 @@ module.exports.controller = (app) => {
       email: req.body.email,
       description: req.body.description,
       failedProcess: req.body.failedProcess,
-      notifyMembers: req.body.notifyMembers
+      sentTo: req.body.sentTo
     });
 
     // Save to the database
@@ -19,7 +19,7 @@ module.exports.controller = (app) => {
       res.send(serviceFailure);
 
       // Send an io message
-      req.app.io.emit('NOTIFICATION', {members: req.body.notifyMembers, message: "You have a notification!"})
+      req.app.io.emit('NOTIFICATION', {members: req.body.sentTo, message: "You have a notification!", sentBy: req.body.email })
 
     });
 

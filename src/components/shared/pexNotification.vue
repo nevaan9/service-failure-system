@@ -9,7 +9,7 @@
     :top="y === 'top'"
     :vertical="mode === 'vertical'"
   >
-    {{ currentNotification }}
+    {{ `${currentNotification.sentBy} sent you a notification`}}
     <v-btn
       color="pink"
       flat

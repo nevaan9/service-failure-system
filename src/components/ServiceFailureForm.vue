@@ -153,7 +153,7 @@ export default {
             email: this.email,
             description: this.description,
             failedProcess: this.selectedProcessFailure,
-            notifyMembers: this.selectedMember
+            sentTo: this.selectedMember
           },
           {
             'Content-Type': 'application/json',

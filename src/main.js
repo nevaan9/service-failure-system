@@ -95,7 +95,7 @@ new Vue({
     this.$socket.on('NOTIFICATION', (data) => {
       // According to some logic, emit notifications to users!
       if (data.members.includes(this.currentUserId)) {
-        this.$notofication(data.message)
+        this.$notofication({message: data.message, sentBy: data.sentBy })
       }
     });
   }
