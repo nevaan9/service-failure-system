@@ -14,11 +14,13 @@ import Process from './store/process/processes'
 // Use socket iO
 import VueSocketio from 'vue-socket.io';
 import socketio from 'socket.io-client'
-// import io from 'socket.io-client';
 
 // plugins
 import pexNotification from '@/plugins/pex-notification'
 Vue.use(pexNotification)
+
+// vuex
+import { mapState } from 'vuex'
 
 Vue.use(VueSocketio, socketio('http://localhost:8081'));
 
@@ -46,7 +48,7 @@ router.beforeEach((to, from, next) => {
       method: 'get',
       url: '/api/current_user',
     }).then((response) => {
-        store.commit('auth/logUser', {name: response.data.current_user.name, email: response.data.current_user.email});
+      store.commit('auth/logUser', {id: response.data.current_user._id, name: response.data.current_user.name, email: response.data.current_user.email});
         next();
       })
       .catch((err) => {
@@ -60,7 +62,7 @@ router.beforeEach((to, from, next) => {
       method: 'get',
       url: '/api/current_user',
     }).then((response) => {
-      store.commit('auth/logUser', {name: response.data.current_user.name, email: response.data.current_user.email});
+      store.commit('auth/logUser', {id: response.data.current_user._id, name: response.data.current_user.name, email: response.data.current_user.email});
       next('/Home/Dashboard');
     }).catch((err) => {
         return next();
@@ -83,10 +85,18 @@ new Vue({
       console.log('socket connected')
     }
   },
+  computed: {
+    ...mapState('auth', ['current_user']),
+    currentUserId () {
+      return this.current_user ? this.current_user.id : null
+    }
+  },
   mounted() {
     this.$socket.on('NOTIFICATION', (data) => {
       // According to some logic, emit notifications to users!
-      this.$notofication(data)
+      if (data.members.includes(this.currentUserId)) {
+        this.$notofication(data.message)
+      }
     });
   }
 });

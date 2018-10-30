@@ -7,6 +7,8 @@ module.exports.controller = (app) => {
       name: req.body.name,
       email: req.body.email,
       description: req.body.description,
+      failedProcess: req.body.failedProcess,
+      notifyMembers: req.body.notifyMembers
     });
 
     // Save to the database
@@ -15,10 +17,16 @@ module.exports.controller = (app) => {
         console.log(err)
       }
       res.send(serviceFailure);
+
+      // Send an io message
+      req.app.io.emit('NOTIFICATION', {members: req.body.notifyMembers, message: "You have a notification!"})
+
     });
+
   });
 
   app.get('/all-service-failures', (req, res) => {
+
     ServiceFailureSchema.find({}, 'name email description', (error, serviceFailiures) => {
       if (error) { console.log(error)}
       res.send({ serviceFailiures });

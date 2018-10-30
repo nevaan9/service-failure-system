@@ -55,7 +55,6 @@ fs.readdirSync('./src/controllers').forEach(file => {
 
 // Port
 const port = process.env.API_PORT || 8081;
-app.use('/', router);
 
 
 app.use(history());
@@ -74,3 +73,5 @@ io.on('connection', function(socket) {
   });
 });
 
+// Make the io object global
+app.io = io;

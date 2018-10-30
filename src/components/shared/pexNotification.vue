@@ -9,7 +9,7 @@
     :top="y === 'top'"
     :vertical="mode === 'vertical'"
   >
-    {{ text }}
+    {{ currentNotification }}
     <v-btn
       color="pink"
       flat
@@ -30,8 +30,7 @@
         y: 'top',
         x: 'right',
         mode: '',
-        timeout: 3000,
-        text: 'You got a notification!'
+        timeout: 3000
       }
     },
     computed: {

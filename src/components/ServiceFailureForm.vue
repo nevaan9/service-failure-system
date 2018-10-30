@@ -53,7 +53,7 @@
                 outline
                 :items="members"
                 item-text="name"
-                item-value="name"
+                item-value="_id"
                 v-model="selectedMember"
                 label="Select Members to CC"
                 multiple
@@ -152,6 +152,8 @@ export default {
             name: this.name,
             email: this.email,
             description: this.description,
+            failedProcess: this.selectedProcessFailure,
+            notifyMembers: this.selectedMember
           },
           {
             'Content-Type': 'application/json',
