@@ -40,6 +40,7 @@
 
 <script>
   import pexNotification from '@/components/shared/pexNotification'
+  import { mapState } from 'vuex'
 export default {
   name: 'LeftTabToolbar',
   props: {
@@ -75,5 +76,17 @@ export default {
       });
     },
   },
+  computed: {
+    ...mapState('auth', ['current_user']),
+    currentUserId () {
+      return this.current_user ? this.current_user.id : null
+    }
+  },
+  mounted() {
+    this.$socket.on(`NOTIFICATION-${this.currentUserId}`, (data) => {
+      // According to some logic, emit notifications to users!
+      this.$notofication({message: data.message, sentBy: data.sentBy })
+    });
+  }
 };
 </script>

@@ -19,9 +19,6 @@ import socketio from 'socket.io-client'
 import pexNotification from '@/plugins/pex-notification'
 Vue.use(pexNotification)
 
-// vuex
-import { mapState } from 'vuex'
-
 Vue.use(VueSocketio, socketio('http://localhost:8081'));
 
 Vue.config.devtools = true;
@@ -84,20 +81,6 @@ new Vue({
     connect: function(){
       console.log('socket connected')
     }
-  },
-  computed: {
-    ...mapState('auth', ['current_user']),
-    currentUserId () {
-      return this.current_user ? this.current_user.id : null
-    }
-  },
-  mounted() {
-    this.$socket.on('NOTIFICATION', (data) => {
-      // According to some logic, emit notifications to users!
-      if (data.members.includes(this.currentUserId)) {
-        this.$notofication({message: data.message, sentBy: data.sentBy })
-      }
-    });
   }
 });
 

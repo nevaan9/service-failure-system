@@ -17,9 +17,12 @@ module.exports.controller = (app) => {
         console.log(err)
       }
       res.send(serviceFailure);
-      
+
       // Send an io message
-      req.app.io.emit('NOTIFICATION', {members: req.body.sentTo, message: req.body.description, sentBy: req.body.email })
+      const notifyMembers = req.body.sentTo;
+      notifyMembers.forEach((userId) => {
+        req.app.io.emit(`NOTIFICATION-${userId}`, {message: req.body.description, sentBy: req.body.email })
+      })
 
     });
 
