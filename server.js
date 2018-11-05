@@ -68,10 +68,20 @@ var io = require('socket.io').listen(server);
 
 io.on('connection', function(socket) {
   console.log(`Connected to socket with socketID: ${socket.id}`);
-  socket.on('SEND_MESSAGE', function(data) {
-    io.emit('NOTIFICATION', data)
+
+  socket.on('login', function(user) {
+    console.log(`${user.id} Logged In!`);
+    app.logUsers.add(user.id)
+    console.log(`All logged in users:`);
+    console.log(app.logUsers);
+  });
+
+  socket.on('logout', function(user) {
+    console.log(`${user.id} Logged Out!`)
+    app.logUsers.delete(user.id);
   });
 });
 
-// Make the io object global
+// Make the io/users object global
 app.io = io;
+app.logUsers = new Set();

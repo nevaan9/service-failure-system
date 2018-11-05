@@ -71,6 +71,7 @@ export default {
         url: '/api/logout',
       }).then(() => {
         this.$router.push('/');
+        this.$socket.emit('logout', {id: this.currentUserId})
       }).catch(() => {
         // Error
       });
@@ -87,6 +88,8 @@ export default {
       // According to some logic, emit notifications to users!
       this.$notofication({message: data.message, sentBy: data.sentBy })
     });
+
+    this.$socket.emit('login', {id: this.currentUserId})
   }
 };
 </script>

@@ -78,6 +78,7 @@ export default {
           { email: this.email, password: this.password }
           ).then(() => {
             this.$router.push({ name: 'Home' });
+
         }).catch((err) => {
           if (err.response.data.code === 1) {
             this.notValidUser = true;
