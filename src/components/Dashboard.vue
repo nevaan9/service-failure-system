@@ -1,48 +1,39 @@
 <template>
-  <div class="card mt-3">
-    <div class="card-body">
-      <div class="card-title">
-        <h3>Chat Group</h3>
-        <hr>
-      </div>
-      <div class="card-body">
-        <div class="messages">
+  <div>
+    <md-card>
+      <md-card-header>
+        <md-card-header-text>
+          <div class="md-title">Media card</div>
+          <div class="md-subhead">Medium size</div>
+        </md-card-header-text>
 
-        </div>
-      </div>
-    </div>
-    <div class="card-footer">
-      <form @submit.prevent="sendMessage">
-        <div class="gorm-group">
-          <p>User:</p>
-          <v-text-field type="text" v-model="user" />
-        </div>
-        <div class="gorm-group pb-3">
-          <p>Message:</p>
-          <v-text-field v-model="message" />
-        </div>
-        <v-btn @click="sendMessage">Send</v-btn>
-      </form>
-    </div>
+        <md-card-media md-medium>
+          <img src="https://vuematerial.io/assets/examples/card-weather.png" alt="People">
+        </md-card-media>
+      </md-card-header>
+
+      <md-card-actions>
+        <md-badge md-content="1">
+          <md-button class="md-icon-button">
+            <md-icon>notifications</md-icon>
+          </md-button>
+        </md-badge>
+      </md-card-actions>
+    </md-card>
   </div>
 </template>
 
 <script>
   export default {
-    data() {
-      return {
-        user: '',
-        message: '',
-        messages: [],
-        snackbar: false,
-        y: 'top',
-        x: 'right',
-        mode: '',
-        timeout: 3000,
-        text: 'You got a notification!'
-      }
-    },
-    methods: {
-    }
+    name: 'Media'
   }
 </script>
+
+<style scoped>
+  .md-card {
+    width: 320px;
+    margin: 4px;
+    display: inline-block;
+    vertical-align: top;
+  }
+</style>

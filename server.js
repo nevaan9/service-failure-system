@@ -22,6 +22,9 @@ const router = express.Router();
 const serveStatic = require('serve-static');
 const history = require('connect-history-api-fallback');
 
+// Require node mailer and save it
+const nodemailer = require('nodemailer');
+
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
@@ -71,13 +74,13 @@ io.on('connection', function(socket) {
 
   socket.on('login', function(user) {
     console.log(`${user.id} Logged In!`);
-    app.logUsers.add(user.id)
+    app.logUsers.add(user.id);
     console.log(`All logged in users:`);
     console.log(app.logUsers);
   });
 
   socket.on('logout', function(user) {
-    console.log(`${user.id} Logged Out!`)
+    console.log(`${user.id} Logged Out!`);
     app.logUsers.delete(user.id);
   });
 });
@@ -85,3 +88,4 @@ io.on('connection', function(socket) {
 // Make the io/users object global
 app.io = io;
 app.logUsers = new Set();
+app.nodemailer = nodemailer;
