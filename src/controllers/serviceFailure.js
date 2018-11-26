@@ -33,7 +33,7 @@ module.exports.controller = (app) => {
       service:'gmail',
       auth: {
         user: 'nevaan.perera@gmail.com',
-        pass: 'daffyducksd'
+        pass: '********'
       }
     });
     var mailOptions = {
