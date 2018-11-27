@@ -2,13 +2,13 @@
   <div>
     <!-- This is a notification -->
     <pex-notification></pex-notification>
-
     <v-navigation-drawer
-      absolute
-      temporary
+      clipped
       v-model="drawer"
-      app>
-      <v-list dense>
+      app
+    >
+      <v-list
+        dense>
         <div v-for="aLeftNavItem in leftNavItems" :key="aLeftNavItem.name">
           <v-list-tile @click="goToRoute(aLeftNavItem.routeName)">
             <v-list-tile-action>
@@ -31,7 +31,11 @@
         </div>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar app fixed clipped-left>
+    <v-toolbar
+      app
+      fixed
+      clipped-left
+    >
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Pex Service Failure System</v-toolbar-title>
     </v-toolbar>

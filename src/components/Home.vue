@@ -1,8 +1,14 @@
 <template>
-  <v-content fluid fill-height>
-      <v-container fluid fill-height>
-        <v-layout fluid fill-height row>
-          <v-flex xs12>
+  <v-content
+  >
+      <v-container
+      >
+        <v-layout
+          row
+        >
+          <v-flex
+            xs12
+          >
             <v-tabs
               color="blue"
               dark

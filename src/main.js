@@ -11,10 +11,6 @@ import Vuex from 'vuex';
 import auth from './store/auth/auth'
 import Process from './store/process/processes'
 
-// vue material
-import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.min.css'
-
 // Use socket iO
 import VueSocketio from 'vue-socket.io';
 import socketio from 'socket.io-client'
@@ -26,9 +22,6 @@ Vue.use(pexNotification)
 Vue.use(VueSocketio, socketio('http://localhost:8081'));
 
 Vue.config.devtools = true;
-
-// Use Material
-Vue.use(VueMaterial)
 
 // Use Vuetify
 Vue.use(Vuetify);

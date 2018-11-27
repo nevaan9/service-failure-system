@@ -19,38 +19,38 @@ module.exports.controller = (app) => {
       }
       res.send(serviceFailure);
 
+      // Send an io message
+      const notifyMembers = req.body.sentTo;
+      notifyMembers.forEach((userId) => {
+        if (req.app.logUsers.has(userId)) {
+          req.app.io.emit(`NOTIFICATION-${userId}`, {message: req.body.description, sentBy: req.body.email })
+        }
+      })
+
+      var transporter = req.app.nodemailer.createTransport({
+        service:'gmail',
+        auth: {
+          user: 'nevaan.perera@gmail.com',
+          pass: 'daffyducksd'
+        }
+      });
+      var mailOptions = {
+        from: '"Pex Service Failure 👻" <nevaan.perera@gmail.com>',
+        to: 'nevaan9@gmail.com',
+        subject: "HELLLLLLO",
+        text: `The link to your service failure can be found at http://localhost:8081/service-failure/${serviceFailure._id}`
+      };
+      transporter.sendMail(mailOptions, function (err) {
+        if (err) {
+          console.log(err);
+          return 'Error while sending email' + err
+        }
+        else {
+          console.log("Email sent");
+        }
+      })
     });
 
-    // Send an io message
-    const notifyMembers = req.body.sentTo;
-    notifyMembers.forEach((userId) => {
-      if (req.app.logUsers.has(userId)) {
-        req.app.io.emit(`NOTIFICATION-${userId}`, {message: req.body.description, sentBy: req.body.email })
-      }
-    })
-
-    var transporter = req.app.nodemailer.createTransport({
-      service:'gmail',
-      auth: {
-        user: 'nevaan.perera@gmail.com',
-        pass: '********'
-      }
-    });
-    var mailOptions = {
-      from: '"Pex Service Failure 👻" <nevaan.perera@gmail.com>',
-      to: 'nevaan9@gmail.com',
-      subject: "HELLLLLLO",
-      text: 'This is a test'
-    };
-    transporter.sendMail(mailOptions, function (err) {
-      if (err) {
-        console.log(err);
-        return 'Error while sending email' + err
-      }
-      else {
-        console.log("Email sent");
-      }
-    })
   });
 
   app.get('/all-service-failures', (req, res) => {

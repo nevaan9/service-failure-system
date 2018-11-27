@@ -1,9 +1,14 @@
 <template>
   <v-content fluid fill-height>
     <v-container>
-      <v-layout row>
-        <v-flex xs12 sm6>
-          <v-card v-if="dataLoaded">
+      <v-layout
+        row>
+        <v-flex
+        >
+          <v-card
+            style="height: 100%; overflow: scroll;"
+            v-if="dataLoaded && serviceFailures.length"
+          >
             <v-list two-line>
               <template>
                 <v-subheader>
@@ -20,9 +25,14 @@
               </template>
             </v-list>
           </v-card>
-          <div v-else>
+          <div v-if="!dataLoaded">
             <h1>
               Loading Data...
+            </h1>
+          </div>
+          <div v-if="dataLoaded && !serviceFailures.length">
+            <h1>
+              No service failiures
             </h1>
           </div>
         </v-flex>
@@ -59,7 +69,6 @@
         ).then((response) => {
           this.dataLoaded = true;
           this.serviceFailures = response.data.serviceFailiures;
-          this.currentUser = response.data;
         }).catch(() => {
           alert('Error!')
         });
