@@ -55,14 +55,14 @@ module.exports.controller = (app) => {
 
   app.get('/all-service-failures', (req, res) => {
 
-    ServiceFailureSchema.find({}, 'name email description', (error, serviceFailiures) => {
+    ServiceFailureSchema.find({}, 'name email description failedProcess sentTo', (error, serviceFailiures) => {
       if (error) { console.log(error)}
       res.send({ serviceFailiures });
     });
   });
 
   app.get('/aServiceFailure/:SFid', (req, res) => {
-    ServiceFailureSchema.findById(req.params.SFid, 'name email description', (error, SF) => {
+    ServiceFailureSchema.findById(req.params.SFid, 'name email description sentTo', (error, SF) => {
       if (error) {
         console.error(error);
         console.error('Error');
@@ -71,4 +71,14 @@ module.exports.controller = (app) => {
       }
     });
   });
+
+  app.get('/assignedToServiceFailures/:userId', (req, res) => {
+    ServiceFailureSchema.find({ sentTo: req.params.userId }, (error, assignedToSFs) => {
+      if (error) {
+        console.log("Error: cannot find assigned SFs")
+      } else {
+        res.send(assignedToSFs)
+      }
+    });
+  })
 };

@@ -7,7 +7,7 @@ const ServiceFailureSchema = new Schema({
   email: String,
   description: String,
   failedProcess: String,
-  sentTo: Array
+  sentTo: [String]
 });
 
 const ServiceFailure = mongoose.model('ServiceFailure', ServiceFailureSchema);

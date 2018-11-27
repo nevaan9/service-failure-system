@@ -5,9 +5,13 @@
         row>
         <v-flex
         >
+          <v-checkbox
+            v-model="myServiceFailures"
+            label="My Service Failures"
+          >
+          </v-checkbox>
           <v-card
-            style="height: 100%; overflow: scroll;"
-            v-if="dataLoaded && serviceFailures.length"
+            v-if="dataLoaded && items.length"
           >
             <v-list two-line>
               <template>
@@ -16,7 +20,7 @@
                 </v-subheader>
                 <v-divider>
                 </v-divider>
-                <v-list-tile v-for="sf in serviceFailures" @click="goToRoute(sf._id)">
+                <v-list-tile v-for="sf in items" @click="goToRoute(sf._id)">
                   <v-list-tile-content>
                     <v-list-tile-title>{{ sf.name }}</v-list-tile-title>
                     <v-list-tile-sub-title>{{ sf.description }}</v-list-tile-sub-title>
@@ -25,16 +29,16 @@
               </template>
             </v-list>
           </v-card>
-          <div v-if="!dataLoaded">
-            <h1>
+          <template v-if="!dataLoaded">
+            <h4>
               Loading Data...
-            </h1>
-          </div>
-          <div v-if="dataLoaded && !serviceFailures.length">
-            <h1>
+            </h4>
+          </template>
+          <template v-if="dataLoaded && !items.length">
+            <h4>
               No service failiures
-            </h1>
-          </div>
+            </h4>
+          </template>
         </v-flex>
       </v-layout>
     </v-container>
@@ -42,6 +46,7 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   export default {
     name: 'ServiceFailures',
     data() {
@@ -49,6 +54,10 @@
         dataLoaded: false,
         serviceFailures: [],
         currentUser: null,
+        assignedBy: [],
+        myServiceFailures: false,
+        showAllData: true,
+        showFilterData: false
       }
     },
     mounted() {
@@ -70,11 +79,34 @@
           this.dataLoaded = true;
           this.serviceFailures = response.data.serviceFailiures;
         }).catch(() => {
+          this.dataLoaded = true;
           alert('Error!')
         });
       },
       goToRoute(SFid) {
         this.$router.push({ name: 'aServiceFailure', params: { SFid: SFid } });
+      }
+    },
+    computed: {
+      ...mapState('auth', ['current_user']),
+      items () {
+        if (this.showAllData) {
+          return this.serviceFailures
+        } else if (this.showFilterData) {
+          return this.serviceFailures.filter(aSF => aSF.sentTo.includes(this.current_user.id))
+        }
+        else return []
+      }
+    },
+    watch: {
+      myServiceFailures (val) {
+        if (val) {
+          this.showAllData = false
+          this.showFilterData = true
+        } else {
+          this.showAllData = true
+          this.showFilterData = false
+        }
       }
     }
   }

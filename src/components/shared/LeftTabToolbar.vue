@@ -38,6 +38,8 @@
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Pex Service Failure System</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <h3>{{ current_user.name }}</h3>
     </v-toolbar>
   </div>
 </template>
