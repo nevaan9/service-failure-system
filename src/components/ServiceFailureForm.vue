@@ -144,6 +144,12 @@ export default {
     submit() {
       // This validates the text fields
       if (this.$refs.form.validate() && this.validateSelect()) {
+        // Create a new set so we can easily access ID's
+        const sentToIds = new Set()
+        this.selectedMember.forEach(m => sentToIds.add(m))
+
+        // get all the selected members
+        const sentTo = this.members.filter(m => sentToIds.has(m._id))
         // Submit the data to the DB
         return this.axios.post('/submit-service-failure',
           {
@@ -151,7 +157,7 @@ export default {
             email: this.email,
             description: this.description,
             failedProcess: this.allProcesses.find(p => p._id === this.selectedProcessFailure),
-            sentTo: this.selectedMember
+            sentTo: sentTo
           },
           {
             'Content-Type': 'application/json',

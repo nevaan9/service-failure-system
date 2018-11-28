@@ -21,9 +21,9 @@ module.exports.controller = (app) => {
 
       // Send an io message
       const notifyMembers = req.body.sentTo;
-      notifyMembers.forEach((userId) => {
-        if (req.app.logUsers.has(userId)) {
-          req.app.io.emit(`NOTIFICATION-${userId}`, {message: req.body.description, sentBy: req.body.email })
+      notifyMembers.forEach((user) => {
+        if (req.app.logUsers.has(user._id)) {
+          req.app.io.emit(`NOTIFICATION-${user._id}`, {message: req.body.description, sentBy: req.body.email })
         }
       })
 
@@ -62,7 +62,7 @@ module.exports.controller = (app) => {
   });
 
   app.get('/aServiceFailure/:SFid', (req, res) => {
-    ServiceFailureSchema.findById(req.params.SFid, 'name email description', (error, SF) => {
+    ServiceFailureSchema.findById(req.params.SFid, 'name email description failedProcess sentTo', (error, SF) => {
       if (error) {
         console.error(error);
         console.error('Error');

@@ -93,9 +93,21 @@
         if (this.showAllData) {
           return this.serviceFailures
         } else if (this.showFilterData) {
-          return this.serviceFailures.filter(aSF => aSF.sentTo.includes(this.current_user.id))
+          return this.usersServiceFailures
         }
         else return []
+      },
+      usersServiceFailures () {
+        // Get all the
+        const set = new Set()
+        for (const sf of this.serviceFailures) {
+          sf.sentTo.forEach((user) => {
+            if (user._id === this.current_user.id) {
+              set.add(sf._id)
+            }
+          })
+        }
+        return this.serviceFailures.filter(aSF => set.has(aSF._id))
       }
     },
     watch: {

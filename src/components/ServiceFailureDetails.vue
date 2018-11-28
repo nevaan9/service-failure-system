@@ -4,10 +4,20 @@
       <v-container grid-list-md text-xs-center>
         <v-layout row wrap v-for="key in Object.keys(serviceFailureDetails)">
           <v-flex xs2>
-            <p>{{ key === '_id' ? key.substr(-2) : key }}</p>
+            <p>{{ getKeyName(key) }}</p>
           </v-flex>
           <v-flex xs10>
-            <p> {{ serviceFailureDetails[key] }} </p>
+            <p
+              v-if="key !== 'failedProcess' && key !== 'sentTo'"
+            >
+              {{ serviceFailureDetails[key] }}
+            </p>
+            <p v-if="key === 'failedProcess'">
+              {{ serviceFailureDetails[key].name }}
+            </p>
+            <p v-if="key === 'sentTo'">
+              {{ getSentToMembers(serviceFailureDetails[key]) }}
+            </p>
           </v-flex>
         </v-layout>
       </v-container>
@@ -42,6 +52,24 @@ export default {
         alert('ERROR!');
       });
     },
+    getKeyName (key) {
+      if (key === '_id') {
+        return 'ID'
+      } else if (key === 'failedProcess') {
+        return 'Failed Process'
+      } else if (key === 'sentTo') {
+        return 'Sent to'
+      } else if (key === 'name') {
+        return 'Submitted by'
+      } else {
+        return key.charAt(0).toUpperCase() + key.slice(1);
+      }
+    },
+    getSentToMembers (members) {
+      const names = [];
+      members.forEach(mem => names.push(mem.name));
+      return names.length > 1 ? names.join(", ") : names[0];
+    }
   },
 
 }
