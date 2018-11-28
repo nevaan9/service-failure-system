@@ -35,10 +35,10 @@ module.exports.controller = (app) => {
         }
       });
       var mailOptions = {
-        from: '"Pex Service Failure 👻" <nevaan.perera@gmail.com>',
+        from: '"Pex Service Failure" <nevaan.perera@gmail.com>',
         to: 'nevaan9@gmail.com',
-        subject: "HELLLLLLO",
-        text: `The link to your service failure can be found at http://localhost:8081/service-failure/${serviceFailure._id}`
+        subject: `New Service Failure From ${serviceFailure.name}`,
+        text: `Follow link to see full details: http://localhost:8081/service-failure/${serviceFailure._id}`
       };
       transporter.sendMail(mailOptions, function (err) {
         if (err) {
