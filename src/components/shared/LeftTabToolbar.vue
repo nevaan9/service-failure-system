@@ -9,7 +9,7 @@
     >
       <v-list
         dense>
-        <div v-for="aLeftNavItem in leftNavItems" :key="aLeftNavItem.name">
+        <template v-for="aLeftNavItem in leftNavItems" :key="aLeftNavItem.name">
           <v-list-tile @click="goToRoute(aLeftNavItem.routeName)">
             <v-list-tile-action>
               <v-icon>{{ aLeftNavItem.icon }}</v-icon>
@@ -18,7 +18,7 @@
               <v-list-tile-title>{{ aLeftNavItem.name }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-        </div>
+        </template>
         <div :key="logout">
           <v-list-tile @click="logout">
             <v-list-tile-action>
@@ -61,7 +61,9 @@ export default {
       leftNavItems: [
         { name: 'Dashboard', icon: 'dashboard', routeName: 'Dashboard' },
         { name: 'Submit Service Failure Request', icon: 'add', routeName: 'ServiceFailureForm' },
-        {name: 'See All SFR', icon: 'add', routeName: 'ServiceFailures'}
+        {name: 'See All SFR', icon: 'add', routeName: 'ServiceFailures'},
+        {name: 'Register User', icon: 'add', routeName: 'registerUser'},
+        {name: 'Register Process', icon: 'add', routeName: 'registerProcess'},
         ],
     };
   },

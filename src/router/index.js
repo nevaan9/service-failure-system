@@ -9,6 +9,8 @@ import Contact from '@/components/Contact';
 import ServiceFailureForm from '@/components/ServiceFailureForm';
 import ServiceFailures from '@/components/ServiceFailures';
 import ServiceFailureDetails from '@/components/ServiceFailureDetails';
+import RegisterUser from '@/components/RegisterUser';
+import RegisterProcess from '@/components/RegisterProcess';
 import Footer from '@/components/shared/Footer';
 
 Vue.use(Router);
@@ -72,7 +74,8 @@ export default new Router({
         content: ServiceFailureForm,
         footer: Footer,
       },
-    }, {
+    },
+    {
       path: '/service-failures',
       name: 'ServiceFailures',
       components: {
@@ -80,7 +83,8 @@ export default new Router({
         content: ServiceFailures,
         footer: Footer,
       },
-    }, {
+    },
+    {
       path: '/service-failure/:SFid',
       name: 'aServiceFailure',
       props: {
@@ -91,6 +95,24 @@ export default new Router({
       components: {
         leftTab: LeftTabToolbar,
         content: ServiceFailureDetails,
+        footer: Footer,
+      },
+    },
+    {
+      path: '/register-user',
+      name: 'registerUser',
+      components: {
+        leftTab: LeftTabToolbar,
+        content: RegisterUser,
+        footer: Footer,
+      },
+    },
+    {
+      path: '/register-process',
+      name: 'registerProcess',
+      components: {
+        leftTab: LeftTabToolbar,
+        content: RegisterProcess,
         footer: Footer,
       },
     },

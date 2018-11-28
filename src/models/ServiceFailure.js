@@ -6,7 +6,7 @@ const ServiceFailureSchema = new Schema({
   name: String,
   email: String,
   description: String,
-  failedProcess: String,
+  failedProcess: Object,
   sentTo: [String]
 });
 

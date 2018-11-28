@@ -150,7 +150,7 @@ export default {
             name: this.name,
             email: this.email,
             description: this.description,
-            failedProcess: this.selectedProcessFailure,
+            failedProcess: this.allProcesses.find(p => p._id === this.selectedProcessFailure),
             sentTo: this.selectedMember
           },
           {
