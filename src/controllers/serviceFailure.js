@@ -62,7 +62,7 @@ module.exports.controller = (app) => {
   });
 
   app.get('/aServiceFailure/:SFid', (req, res) => {
-    ServiceFailureSchema.findById(req.params.SFid, 'name email description sentTo', (error, SF) => {
+    ServiceFailureSchema.findById(req.params.SFid, 'name email description', (error, SF) => {
       if (error) {
         console.error(error);
         console.error('Error');
