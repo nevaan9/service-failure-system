@@ -1,4 +1,5 @@
 const ServiceFailureSchema = require('../models/ServiceFailure');
+const config = require()
 // Require nodemailer
 
 module.exports.controller = (app) => {
@@ -31,7 +32,7 @@ module.exports.controller = (app) => {
         service:'gmail',
         auth: {
           user: 'nevaan.perera@gmail.com',
-          pass: 'daffyducksd'
+          pass: process.env.password
         }
       });
       var mailOptions = {
