@@ -1,5 +1,5 @@
 const ServiceFailureSchema = require('../models/ServiceFailure');
-const config = require()
+const config = require('./../../config/Config');
 // Require nodemailer
 
 module.exports.controller = (app) => {
@@ -12,7 +12,6 @@ module.exports.controller = (app) => {
       failedProcess: req.body.failedProcess,
       sentTo: req.body.sentTo
     });
-
     // Save to the database
     newServiceFailure.save((err, serviceFailure) => {
       if (err) {
@@ -32,7 +31,7 @@ module.exports.controller = (app) => {
         service:'gmail',
         auth: {
           user: 'nevaan.perera@gmail.com',
-          pass: process.env.password
+          pass: config.PASSWORD
         }
       });
       var mailOptions = {

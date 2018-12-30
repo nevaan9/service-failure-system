@@ -18,13 +18,11 @@ jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
 jwtOptions.secretOrKey = 'thisisasecretkey';
 
 const app = express();
-const router = express.Router();
 const serveStatic = require('serve-static');
 const history = require('connect-history-api-fallback');
 
 // Require node mailer and save it
 const nodemailer = require('nodemailer');
-
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
